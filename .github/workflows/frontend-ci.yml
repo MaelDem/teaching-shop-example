@@ -1,4 +1,4 @@
-ame: Frontend CI
+name: Frontend CI
 
 on:
   # TODO: Configure trigger
