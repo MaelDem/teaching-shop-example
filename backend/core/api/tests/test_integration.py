@@ -101,8 +101,7 @@ class UserPurchaseFlowTests(TestCase):
         # TODO: Assert the order contains the correct product name
         self.assertEqual(orders_response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(orders_response.data), 1)
-        self.assertEqual(orders_response.data[0]['product']['name'], 'Baby Onesie')
-
+        self.assertEqual(orders_response.data[0]['product_name'], 'Baby Onesie')
 
 class PaymentValidationTests(TestCase):
     """Test payment validation across the system"""
