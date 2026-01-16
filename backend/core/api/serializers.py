@@ -11,9 +11,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="product.name", read_only=True)
-    product_price = serializers.DecimalField(
-        source="product.price", max_digits=10, decimal_places=2, read_only=True
-    )
+    product_price = serializers.DecimalField(source="product.price", max_digits=10, decimal_places=2, read_only=True)
     product_image = serializers.CharField(source="product.imageUrl", read_only=True)
 
     class Meta:
@@ -33,9 +31,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class AdminOrderSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="product.name", read_only=True)
-    product_price = serializers.DecimalField(
-        source="product.price", max_digits=10, decimal_places=2, read_only=True
-    )
+    product_price = serializers.DecimalField(source="product.price", max_digits=10, decimal_places=2, read_only=True)
     product_image = serializers.CharField(source="product.imageUrl", read_only=True)
     username = serializers.CharField(source="user.username", read_only=True)
     user_email = serializers.CharField(source="user.email", read_only=True)

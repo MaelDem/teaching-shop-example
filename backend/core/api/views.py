@@ -29,9 +29,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         try:
             product = Product.objects.get(id=product_id)
         except Product.DoesNotExist:
-            return Response(
-                {"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Validate card number (simple dummy validation)
         if len(card_number) != 16 or not card_number.isdigit():
@@ -79,9 +77,7 @@ def register(request):
         )
 
     if User.objects.filter(username=username).exists():
-        return Response(
-            {"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST
-        )
+        return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
     user = User.objects.create_user(username=username, email=email, password=password)
     token, _ = Token.objects.get_or_create(user=user)
@@ -115,14 +111,10 @@ def login(request):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        return Response(
-            {"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
-        )
+        return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
     if not user.check_password(password):
-        return Response(
-            {"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
-        )
+        return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
     token, _ = Token.objects.get_or_create(user=user)
 

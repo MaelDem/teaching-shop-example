@@ -49,9 +49,7 @@ class Command(BaseCommand):
         # Get all products
         products = list(Product.objects.all())
         if not products:
-            self.stdout.write(
-                self.style.ERROR("No products found. Run seed_products first.")
-            )
+            self.stdout.write(self.style.ERROR("No products found. Run seed_products first."))
             return
 
         # Generate orders for the past N days
@@ -90,8 +88,4 @@ class Command(BaseCommand):
 
                 created_count += 1
 
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"\nDone! Created {created_count} orders over {days + 1} days."
-            )
-        )
+        self.stdout.write(self.style.SUCCESS(f"\nDone! Created {created_count} orders over {days + 1} days."))

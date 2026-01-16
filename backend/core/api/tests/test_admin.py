@@ -9,12 +9,8 @@ from ..models import Product, Order
 class AdminOrdersTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.admin_user = User.objects.create_user(
-            username="admin", password="adminpass123", is_staff=True
-        )
-        self.regular_user = User.objects.create_user(
-            username="regular", password="regularpass123"
-        )
+        self.admin_user = User.objects.create_user(username="admin", password="adminpass123", is_staff=True)
+        self.regular_user = User.objects.create_user(username="regular", password="regularpass123")
         self.product = Product.objects.create(
             name="Test Product",
             description="A test product",
@@ -35,9 +31,7 @@ class AdminOrdersTests(TestCase):
         )
 
     def test_admin_can_view_all_orders(self):
-        response = self.client.post(
-            "/api/auth/login/", {"username": "admin", "password": "adminpass123"}
-        )
+        response = self.client.post("/api/auth/login/", {"username": "admin", "password": "adminpass123"})
         token = response.data["token"]
 
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
@@ -46,9 +40,7 @@ class AdminOrdersTests(TestCase):
         self.assertEqual(len(response.data), 2)
 
     def test_non_admin_cannot_view_admin_orders(self):
-        response = self.client.post(
-            "/api/auth/login/", {"username": "regular", "password": "regularpass123"}
-        )
+        response = self.client.post("/api/auth/login/", {"username": "regular", "password": "regularpass123"})
         token = response.data["token"]
 
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
@@ -56,16 +48,12 @@ class AdminOrdersTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_login_returns_is_staff_for_admin(self):
-        response = self.client.post(
-            "/api/auth/login/", {"username": "admin", "password": "adminpass123"}
-        )
+        response = self.client.post("/api/auth/login/", {"username": "admin", "password": "adminpass123"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(response.data["user"]["is_staff"])
 
     def test_login_returns_is_staff_false_for_regular_user(self):
-        response = self.client.post(
-            "/api/auth/login/", {"username": "regular", "password": "regularpass123"}
-        )
+        response = self.client.post("/api/auth/login/", {"username": "regular", "password": "regularpass123"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertFalse(response.data["user"]["is_staff"])
 

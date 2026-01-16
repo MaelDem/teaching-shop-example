@@ -83,15 +83,11 @@ class Command(BaseCommand):
 
         created_count = 0
         for product_data in products:
-            product, created = Product.objects.get_or_create(
-                name=product_data["name"], defaults=product_data
-            )
+            product, created = Product.objects.get_or_create(name=product_data["name"], defaults=product_data)
             if created:
                 created_count += 1
                 self.stdout.write(f"  Created: {product.name}")
             else:
                 self.stdout.write(f"  Skipped (exists): {product.name}")
 
-        self.stdout.write(
-            self.style.SUCCESS(f"\nDone! Created {created_count} products.")
-        )
+        self.stdout.write(self.style.SUCCESS(f"\nDone! Created {created_count} products."))

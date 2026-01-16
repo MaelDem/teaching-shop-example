@@ -24,22 +24,16 @@ class AuthTests(TestCase):
 
     def test_register_duplicate_username_fails(self):
         User.objects.create_user(username="existing", password="pass123")
-        response = self.client.post(
-            "/api/auth/register/", {"username": "existing", "password": "testpass123"}
-        )
+        response = self.client.post("/api/auth/register/", {"username": "existing", "password": "testpass123"})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_login_returns_token(self):
         User.objects.create_user(username="testuser", password="testpass123")
-        response = self.client.post(
-            "/api/auth/login/", {"username": "testuser", "password": "testpass123"}
-        )
+        response = self.client.post("/api/auth/login/", {"username": "testuser", "password": "testpass123"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("token", response.data)
 
     def test_login_invalid_credentials_fails(self):
         User.objects.create_user(username="testuser", password="testpass123")
-        response = self.client.post(
-            "/api/auth/login/", {"username": "testuser", "password": "wrongpass"}
-        )
+        response = self.client.post("/api/auth/login/", {"username": "testuser", "password": "wrongpass"})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
