@@ -139,15 +139,15 @@ Docker volumes persist data outside of containers:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     Docker Host                              │
+│                     Docker Host                             │
 │                                                             │
-│   ┌─────────────────┐         ┌─────────────────────────┐  │
-│   │   postgres      │         │     Docker Volume       │  │
-│   │   container     │◄───────►│     "postgres-data"     │  │
-│   │   /var/lib/     │         │                         │  │
-│   │   postgresql/   │         │   Data persists even    │  │
-│   │   data          │         │   after container stops │  │
-│   └─────────────────┘         └─────────────────────────┘  │
+│   ┌─────────────────┐         ┌─────────────────────────┐   │
+│   │   postgres      │         │     Docker Volume       │   │
+│   │   container     │◄───────►│     "postgres-data"     │   │
+│   │   /var/lib/     │         │                         │   │
+│   │   postgresql/   │         │   Data persists even    │   │
+│   │   data          │         │   after container stops │   │
+│   └─────────────────┘         └─────────────────────────┘   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
