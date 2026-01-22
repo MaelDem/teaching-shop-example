@@ -6,7 +6,12 @@ services:
       POSTGRES_USER: boutique
       POSTGRES_PASSWORD: boutique
     volumes:
-      - db_boutique:/var/lib/postgresql/data
+      - db_boutique:/var/lib/postgresql/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U boutique -d boutique"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
     # TODO 1: Set the build context to the backend directory
@@ -25,7 +30,8 @@ services:
       DATABASE_USER: boutique
       DATABASE_PASSWORD: boutique
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   frontend:
     build: ./frontend
