@@ -28,7 +28,7 @@ uv run python manage.py runserver 0.0.0.0:5000
 7. Visit `<your.vm.dns>:5000/admin/` (do not forget the trailing slash)
 
 
-
+qsdfqdsf
 ## Frontend
 
 1. Install NGINX
