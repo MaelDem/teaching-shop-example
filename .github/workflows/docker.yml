@@ -10,13 +10,19 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: teaching-shop-example
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend,${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -38,9 +44,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:${{ github.sha }}
-
+            ${{ steps.meta.outputs.tags }}
+            
       - name: Build & push frontend
         uses: docker/build-push-action@v5
         with:
@@ -49,5 +54,4 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:${{ github.sha }}
+            ${{ steps.meta.outputs.tags }}
