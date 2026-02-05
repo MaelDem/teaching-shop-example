@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: boutique
+      POSTGRES_USER: boutique
+      POSTGRES_PASSWORD: boutique
+    volumes:
+      - db_boutique:/var/lib/postgresql/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U boutique -d boutique"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    # TODO 1: Set the build context to the backend directory
+    # Syntax: build: ./relative/path
+    build: backend:main
+
+    # TODO 2: Map port 8000 from container to host
+    # Syntax:
+    #   ports:
+    #     - "host_port:container_port"
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: boutique
+      DATABASE_USER: boutique
+      DATABASE_PASSWORD: boutique
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: frontend:main
+    ports:
+      - "8080:80"
+
+volumes:
+  db_boutique:

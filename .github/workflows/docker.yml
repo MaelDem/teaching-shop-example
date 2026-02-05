@@ -71,7 +71,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          source: docker-compose.yml
+          source: docker-compose-server.yml
           target: ~/
 
       - name: Deploy to server
@@ -87,4 +87,4 @@ jobs:
             docker rm frontend || true
             docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/backend:main
             docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/frontend:main
-            docker compose -f ~/docker-compose.yml up -d
+            docker compose -f ~/docker-compose-server.yml up -d
