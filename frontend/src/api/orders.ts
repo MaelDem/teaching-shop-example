@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = 'http://ec2-51-44-223-10.eu-west-3.compute.amazonaws.com:80/api';
 
 export interface Order {
   id: number;
