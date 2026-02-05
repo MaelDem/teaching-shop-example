@@ -1,4 +1,4 @@
-# Boutique Couture
+# Boutique Couture 
 
 A simple e-commerce application designed as a hands-on learning platform for DevOps concepts and practices.
 
