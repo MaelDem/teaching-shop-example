@@ -81,10 +81,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            docker stop backend || true
-            docker stop frontend || true
-            docker rm backend || true
-            docker rm frontend || true
+            docker stop ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/backend || true
+            docker stop ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/frontend || true
+            docker rm ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/backend || true
+            docker rm ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/frontend || true
             docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/backend:main
             docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/frontend:main
             docker compose -f ~/docker-compose-server.yml up -d

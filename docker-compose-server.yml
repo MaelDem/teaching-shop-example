@@ -16,7 +16,7 @@ services:
   backend:
     # TODO 1: Set the build context to the backend directory
     # Syntax: build: ./relative/path
-    build: ghcr.io/maeldem/teaching-shop-example/backend:main
+    image: ghcr.io/maeldem/teaching-shop-example/backend:main
 
     # TODO 2: Map port 8000 from container to host
     # Syntax:
@@ -34,7 +34,7 @@ services:
         condition: service_healthy
 
   frontend:
-    build: ghcr.io/maeldem/teaching-shop-example/frontend:main
+    image: ghcr.io/maeldem/teaching-shop-example/frontend:main
     ports:
       - "8080:80"
 
