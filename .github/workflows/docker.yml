@@ -82,10 +82,10 @@ jobs:
           script: |
             mkdir -p ~/frontend
             mkdir -p ~/backend
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:latest
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:latest
             docker stop backend || true
             docker stop frontend || true
             docker rm backend || true
             docker rm frontend || true
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:latest
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:latest
             docker-compose -f ~/docker-compose.yml up -d
