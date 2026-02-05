@@ -34,7 +34,7 @@ export async function fetchProducts(): Promise<Product[]> {
   //     description: "La savane illustre parfaitement la jungle créative de votre bébé !",
   //     imageUrl: "/bavoir3.jpg"
   // }];
-  const response = await fetch("http://localhost:8000/api/products/").then(
+  const response = await fetch("http://ec2-51-44-223-10.eu-west-3.compute.amazonaws.com:80/api/products/").then(
     (res) =>
       res.json().then((data) =>
         data.map((p: RawProduct) => ({
