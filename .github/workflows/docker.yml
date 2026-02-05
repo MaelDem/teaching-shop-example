@@ -55,3 +55,41 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ${{ steps.meta.outputs.tags }}
+
+  deploy-to-server:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: setup ssh key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+        
+      - name: prepare server
+        run: |
+          ssh "${{ secrets.SSH_HOST }}"
+          mkdir ~/frontend
+          mkdir ~/backend
+
+      - name: pull backend
+        run: |
+          ssh "${{ secrets.SSH_HOST }}" 
+          "cd ~/backend &&
+           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:latest
+           && docker stop backend || true 
+           && docker rm backend || true 
+
+      - name: pull frontend
+        run: |
+          ssh "${{ secrets.SSH_HOST }}"
+          "cd ~/frontend &&
+           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:latest
+           && docker stop frontend || true
+           && docker rm frontend || true
+
+      - name: copy and run docker compose
+        run: |
+          scp docker-compose.yml "${{ secrets.SSH_HOST }}:~/docker-compose.yml"
+          ssh "${{ secrets.SSH_HOST }}" "cd ~ && docker compose -f docker-compose.yml up -d"        
