@@ -69,13 +69,13 @@ jobs:
         
       - name: prepare server
         run: |
-          ssh "${{ secrets.SSH_HOST }}"
+          ssh -i "${{ secrets.SSH_KEY }}" "${{ secrets.SSH_HOST }}"
           mkdir ~/frontend
           mkdir ~/backend
 
       - name: pull backend
         run: |
-          ssh "${{ secrets.SSH_HOST }}" 
+          ssh -i "${{ secrets.SSH_KEY }}" "${{ secrets.SSH_HOST }}"
           "cd ~/backend &&
            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:latest
            && docker stop backend || true 
@@ -83,7 +83,7 @@ jobs:
 
       - name: pull frontend
         run: |
-          ssh "${{ secrets.SSH_HOST }}"
+          ssh -i "${{ secrets.SSH_KEY }}" "${{ secrets.SSH_HOST }}"
           "cd ~/frontend &&
            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:latest
            && docker stop frontend || true
@@ -92,4 +92,4 @@ jobs:
       - name: copy and run docker compose
         run: |
           scp docker-compose.yml "${{ secrets.SSH_HOST }}:~/docker-compose.yml"
-          ssh "${{ secrets.SSH_HOST }}" "cd ~ && docker compose -f docker-compose.yml up -d"        
+          ssh -i "${{ secrets.SSH_KEY }}" "${{ secrets.SSH_HOST }}" "cd ~ && docker compose -f docker-compose.yml up -d"        
