@@ -11,7 +11,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  REPOSITORY: maeldem/teaching-shop-exemple
+  REPOSITORY: maeldem/teaching-shop-example
 
 jobs:
   build-and-deploy:
@@ -87,6 +87,6 @@ jobs:
             docker stop frontend || true
             docker rm backend || true
             docker rm frontend || true
-            docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/backend:latest
-            docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/frontend:latest
+            docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/backend:main
+            docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/frontend:main
             docker-compose -f ~/docker-compose.yml up -d
