@@ -1,1 +1,1 @@
-export const ADMIN_BASE_URL = "http://localhost:8000/admin/";
+export const ADMIN_BASE_URL = "http://ec2-51-44-223-10.eu-west-3.compute.amazonaws.com:80/admin/";
