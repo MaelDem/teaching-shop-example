@@ -64,18 +64,18 @@ jobs:
       - name: setup ssh key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/server_key
+          chmod 600 ~/.ssh/server_key
         
       - name: prepare server
         run: |
-          ssh -i "${{ secrets.SSH_KEY }}" "${{ secrets.SSH_HOST }}"
+          ssh -i "~/.ssh/server_key" "${{ secrets.SSH_HOST }}"
           mkdir ~/frontend
           mkdir ~/backend
 
       - name: pull backend
         run: |
-          ssh -i "${{ secrets.SSH_KEY }}" "${{ secrets.SSH_HOST }}"
+          ssh -i "~/.ssh/server_key" "${{ secrets.SSH_HOST }}"
           "cd ~/backend &&
            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:latest
            && docker stop backend || true 
@@ -83,7 +83,7 @@ jobs:
 
       - name: pull frontend
         run: |
-          ssh -i "${{ secrets.SSH_KEY }}" "${{ secrets.SSH_HOST }}"
+          ssh -i "~/.ssh/server_key" "${{ secrets.SSH_HOST }}"
           "cd ~/frontend &&
            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:latest
            && docker stop frontend || true
