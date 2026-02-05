@@ -89,4 +89,4 @@ jobs:
             docker rm frontend || true
             docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/backend:main
             docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/frontend:main
-            docker-compose -f ~/docker-compose.yml up -d
+            docker compose -f ~/docker-compose.yml up -d
