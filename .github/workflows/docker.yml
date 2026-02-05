@@ -11,6 +11,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  REPOSITORY: maeldem/teaching-shop-exemple
 
 jobs:
   build-and-deploy:
@@ -61,12 +62,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend,${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -92,6 +87,6 @@ jobs:
             docker stop frontend || true
             docker rm backend || true
             docker rm frontend || true
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:latest
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:latest
+            docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/backend:latest
+            docker pull ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/frontend:latest
             docker-compose -f ~/docker-compose.yml up -d
